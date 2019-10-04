@@ -82,7 +82,10 @@ const ChatInput = ({ roomId }) => {
 
   return (
     <InputDiv>
-      <Input type="text" onChange={onChangeHandler} onKeyDown={onKeyDownHandler} value={state.message} placeholder="상대방에게 말을 걸어보세요" />
+      <Input type="text" 
+        onChange={onChangeHandler} 
+        onKeyDown={onKeyDownHandler} 
+        value={state.message} placeholder="상대방에게 말을 걸어보세요" />
     </InputDiv>
   );
 }

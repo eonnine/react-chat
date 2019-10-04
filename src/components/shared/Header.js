@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import Popup from 'reactjs-popup';
+
+import ChatRoomMaker from '../chat/ChatRoomMaker';
 
 const Div = styled.div`
 background-color: cornflowerblue;
@@ -29,9 +32,13 @@ const Header = () => {
   return (
     <Div>
       <Title>JEEGOO의 채팅방</Title>
-      <Button>방 만들기</Button>
+      <Popup trigger={<Button>방 만들기</Button>} modal>
+        {close => (
+          <ChatRoomMaker close={close} />
+        )}
+      </Popup>
     </Div>
   )
 }
 
-export default Header;
+export default Header;  
