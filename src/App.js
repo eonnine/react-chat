@@ -1,18 +1,19 @@
 import React from 'react';
-import { Provider, createStroe } from 'react-redux';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import Router from './components/shared/Router';
 import Header from './components/shared/Header';
-
+import Store from './components/shared/Store';
 
 const App = () => {
   return (
-    <BrowserRouter>
-      
+    <Provider store={Store}>
+      <BrowserRouter>
         <Header />
         <Router />
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   )
 };
 

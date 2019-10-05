@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Div = styled.div`
+display: inline-block;
 background: linen;
 border-radius: 10px;
 margin: 2%;
-width: 20%;
-height: 15%;
+width: 19%;
+max-width: 20%;
 min-width: 100px;
 min-height: 100px;
 `;
@@ -18,13 +19,13 @@ font-size: 1.5em;
 line
 `;
 
-const ChatItem = () => {
+const ChatItem = ({ id, title, password, count }) => {
 
   return (
     <Div>
-      <Link to="/Room/1">
-        <P>채팅제목</P>
-        <P>[ 1 / 2 ]</P>
+      <Link to={`/Room/${id}`}>
+        <P>{title}</P>
+        <P>[ {count} / 2 ]</P>
       </Link>
     </Div>
   );

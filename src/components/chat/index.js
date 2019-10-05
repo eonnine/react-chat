@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 
 import ChatItem from './ChatItem';
 
-const ChatList = () => {
+const makeChatRoomList = rooms => (
+  rooms.map(room => {
+    const { id, title, password, count } = room;
+    return <ChatItem
+      key={id}
+      id={id}
+      title={title}
+      count={count}
+      password={password}
+  />
+  })
+)
+
+const ChatList = ({ rooms }) => {
   return (
-    <ChatItem />
+    <Fragment>
+      {makeChatRoomList(rooms)}
+    </Fragment>
   );
 }
 
-export default ChatList;
+const MapStateToProps = (state) => ({
+  rooms: state.ChatRoomList.rooms
+})
+
+export default connect(MapStateToProps)(ChatList);
