@@ -1,8 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
 import Popup from 'reactjs-popup';
+import { connect } from 'react-redux';
 
 import ChatRoomMaker from '../chat/ChatRoomMaker';
+
+const Header = ({ isRoom }) => {
+  return (
+    <Div>
+      <Title>JEEGOO의 채팅방</Title>
+      { 
+        !isRoom && 
+        <Popup trigger={<Button>방 만들기</Button>} modal>
+          {close => (
+            <ChatRoomMaker close={close} />
+          )}
+        </Popup> 
+      }
+    </Div>
+  )
+}
+
+const mapStateToProps = state => ({
+  isRoom: state.isRoom
+})
+
+export default connect(mapStateToProps)(Header);
+
+
 
 const Div = styled.div`
 background-color: cornflowerblue;
@@ -27,18 +52,3 @@ padding: 0.5em;
 margin: 5px;
 float: right;
 `;
-
-const Header = () => {
-  return (
-    <Div>
-      <Title>JEEGOO의 채팅방</Title>
-      <Popup trigger={<Button>방 만들기</Button>} modal>
-        {close => (
-          <ChatRoomMaker close={close} />
-        )}
-      </Popup>
-    </Div>
-  )
-}
-
-export default Header;

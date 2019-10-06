@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import ChatItem from './ChatItem';
 
-const makeChatRoomList = rooms => (
+const makeChatRoomList = (rooms, history) => (
   rooms.map(room => {
     const { id, title, password, count } = room;
     return <ChatItem
@@ -12,14 +12,15 @@ const makeChatRoomList = rooms => (
       title={title}
       count={count}
       password={password}
+      history={history}
   />
   })
 )
 
-const ChatList = ({ rooms }) => {
+const ChatList = ({ rooms, history }) => {
   return (
     <Fragment>
-      {makeChatRoomList(rooms)}
+      {makeChatRoomList(rooms, history)}
     </Fragment>
   );
 }
