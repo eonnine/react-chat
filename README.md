@@ -1,2 +1,14 @@
 # react-chat
-express, react, websocket
+express, react, redux, styled-components, websocket, postgreSQL
+
+# run
+```javascript
+$ npm i
+```
+```javascript
+$ npm run build
+```
+
+```javascript
+$ npm start
+```
