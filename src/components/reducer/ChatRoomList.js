@@ -1,11 +1,12 @@
 import ActionType from '../shared/ActionType';
 
 const InitialState = {
-  rooms: [], // DB를 붙일 때 DB에서 가져온 목록이 됨.
+  rooms: [],
   id: 0,
   isRoom: false
 }
 
+const GET = ActionType.GET_ROOMS;
 const ADD = ActionType.ADD_ROOM;
 const REMOVE = ActionType.REMOVE_ROOM;
 const ADD_COUNT = ActionType.ADD_COUNT_ROOM;
@@ -21,6 +22,12 @@ const ChatRoomList = (state = InitialState, action) => {
   );
   
   switch (action.type) {
+    // 방 목록 가져오기
+    case GET :
+      return {
+        ...state,
+        rooms: action.payload
+      }
     // 방 생성
     case ADD :
       action.payload.id = ++state.id;

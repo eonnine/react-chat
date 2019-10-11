@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import ActionCreator from '../action';
 
 import ChatItem from './ChatItem';
 
-const makeChatRoomList = (rooms, history) => (
-  rooms.map(room => {
+const makeChatRoomList = async (rooms, history) => (
+  await rooms.map(room => {
     const { id, title, password, count } = room;
     return <ChatItem
       key={id}
@@ -17,10 +18,14 @@ const makeChatRoomList = (rooms, history) => (
   })
 )
 
-const ChatList = ({ rooms, history }) => {
+const ChatList = ({ rooms, getRooms, history }) => {
+  ActionCreator.getRooms().then(action => {
+    getRooms(action);
+  });
+  
   return (
     <Fragment>
-      {makeChatRoomList(rooms, history)}
+      {rooms}
     </Fragment>
   );
 }
@@ -29,4 +34,8 @@ const MapStateToProps = (state) => ({
   rooms: state.ChatRoomList.rooms
 })
 
-export default connect(MapStateToProps)(ChatList);
+const MapDispatchToProps = dispatch => ({
+  getRooms: action => dispatch(action)
+});
+
+export default connect(MapStateToProps, MapDispatchToProps)(ChatList);
