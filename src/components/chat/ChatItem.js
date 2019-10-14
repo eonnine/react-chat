@@ -1,37 +1,38 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import ActionCreator from '../action';
 import ActionType from '../shared/ActionType';
 
-const ADD_COUNT = ActionType.ADD_COUNT_ROOM;
+const UPDATE_COUNT = ActionType.UPDATE_COUNT_ROOM;
 
-const ChatItem = ({ id, title, password, count, history, rooms, addCount }) => {
-
-  const isPassword = ( password == '' ) ? false : true;
-  const [ state, setState ] = useState('');
+const ChatItem = ({ id, history, rooms, updateCount }) => {
+  const { room_id, title, pwd, count, count_limit } = rooms.find(el => el.room_id == id);
+  const isPassword = ( pwd ) ? true : false;
+  const [ roomPwd, setRoomPwd ] = useState('');
 
   const onClickHandler = e => {
     // 비밀방일 떄 처리
-    if( isPassword && password != state ){
+    if( isPassword && pwd != roomPwd ){
       return;
     }
     // 인원이 2명인 방은 입장 불가
-    const room = rooms.find(el => el.id == id);
-    if(room.count == 2){
+    
+    if(count >= count_limit){
       return;
     }
-
-    addCount({ type: ADD_COUNT, payload: id });
-    history.push(`/Room/${id}`);
+    const updatedCount = ActionCreator.addCountToRoom(room_id);
+    updateCount({ type: UPDATE_COUNT, payload: updatedCount });
+    history.push(`/Room/${room_id}`);
   }
 
   const onChangeHandler = e => {
-    setState(e.target.value);
+    setRoomPwd(e.target.value);
   }
 
   const onKeyDownHandler = e  => {
     if(e.keyCode == 13){
-      if(password != state){
+      if(pwd != roomPwd){
         alert('비밀번호가 일치하지 않습니다');
         return;
       }
@@ -43,8 +44,8 @@ const ChatItem = ({ id, title, password, count, history, rooms, addCount }) => {
     <Div>
       <ASpan onClick={onClickHandler}>
         <P>{title}</P>
-        <P>[ {count} / 2 ]</P>
-        <P><input type="text" value={state} onChange={onChangeHandler} onKeyDown={onKeyDownHandler} placeholder="비밀번호를 입력하세요" disabled={!isPassword} /></P>
+        <P>[ {count} / {count_limit} ]</P>
+        <P><input type="text" value={roomPwd} onChange={onChangeHandler} onKeyDown={onKeyDownHandler} placeholder="비밀번호를 입력하세요" disabled={!isPassword} /></P>
       </ASpan>
     </Div>
   );
@@ -55,7 +56,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  addCount: action => dispatch(action)
+  updateCount: action => dispatch(action)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatItem);

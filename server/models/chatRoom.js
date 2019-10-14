@@ -9,6 +9,9 @@ const makeChatRoom = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    pwd: {
+      type: Sequelize.STRING,
+    },
     count: {
       type: Sequelize.INTEGER,
     },

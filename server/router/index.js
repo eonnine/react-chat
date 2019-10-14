@@ -8,10 +8,18 @@ Router.use((req, res, next) => {
   next();
 });
 
-Router.get('/chatRooms', (req, res) => {
+Router.get('/list', (req, res) => {
   chatroom.findAll().then(rooms => {
     res.send(rooms);
   });
+});
+
+Router.put('/count', (req, res) => {
+  console.log(req.params);
+  chatroom.findByPk().then(room => {
+    
+  });
+  res.send('1');
 });
 
 module.exports = Router;

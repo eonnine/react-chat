@@ -1,31 +1,26 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import ActionCreator from '../action';
 
 import ChatItem from './ChatItem';
 
-const makeChatRoomList = async (rooms, history) => (
-  await rooms.map(room => {
-    const { id, title, password, count } = room;
-    return <ChatItem
-      key={id}
-      id={id}
-      title={title}
-      count={count}
-      password={password}
-      history={history}
-  />
-  })
-)
-
 const ChatList = ({ rooms, getRooms, history }) => {
-  ActionCreator.getRooms().then(action => {
-    getRooms(action);
-  });
+  useEffect(() => {
+    ActionCreator.getRooms().then(action => {
+      getRooms(action);
+    });
+  }, []);
   
   return (
     <Fragment>
-      {rooms}
+      {rooms.map(room => {
+        const { room_id} = room;
+        return <ChatItem
+          key={room_id}
+          id={room_id}
+          history={history}
+      />
+      })}
     </Fragment>
   );
 }

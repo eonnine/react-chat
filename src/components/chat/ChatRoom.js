@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import ActionType from '../shared/ActionType';
 
-const REDUCE_COUNT = ActionType.REDUCE_COUNT_ROOM;
+const UPDATE_COUNT = ActionType.UPDATE_COUNT_ROOM;
 
 const ChatRoom = ({ history, match, reduceCount }) => {
   const [ state, setState ] = useState({ id: match.params.roomId, logs: [] });
@@ -18,7 +18,7 @@ const ChatRoom = ({ history, match, reduceCount }) => {
   });
 
   const onLeavePageHandler = () => {
-    reduceCount({ type: REDUCE_COUNT, payload: state.id });
+    reduceCount({ type: UPDATE_COUNT, payload: state.id });
     history.push('/public');
   }
 
@@ -39,10 +39,11 @@ const ChatRoom = ({ history, match, reduceCount }) => {
 
 const ChatInput = ({ roomId }) => {
 
-  const [ state, setState ] = useState({ message: '', name: '' });
+  const [ state, setState ] = useState({ message: '', name: '', jsNullName: false });
 
   const send = () => {
     if(state.name == ''){
+      setState({...state, isNullName: true});
       return;
     }
 
@@ -60,7 +61,8 @@ const ChatInput = ({ roomId }) => {
     }
     setState({
       ...state,
-      name: e.target.value
+      name: e.target.value,
+      isNullName: false,
     });
   }
 
@@ -90,6 +92,7 @@ const ChatInput = ({ roomId }) => {
         value={state.message} 
         placeholder="상대방에게 말을 걸어보세요" 
       />
+      <DivIsNullNameMessage>{ state.isNullName ? '닉네임을 입력하세요' : '' }</DivIsNullNameMessage>
     </InputDiv>
   );
 }
@@ -142,4 +145,9 @@ min-width: 100px;
 height: 25px;
 background-color: white;
 margin: 0 1%;
+`;
+
+const DivIsNullNameMessage = styled.div`
+font-size: 12px;
+color: red;
 `;
