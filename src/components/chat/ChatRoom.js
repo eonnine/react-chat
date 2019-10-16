@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import WebSocket from '../shared/ClientWebSocket';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import ActionType from '../shared/ActionType';
+import ActionCreator from '../action';
 
-const UPDATE_COUNT = ActionType.UPDATE_COUNT_ROOM;
-
-const ChatRoom = ({ history, match, reduceCount }) => {
+const ChatRoom = ({ history, match, getRooms }) => {
   const [ state, setState ] = useState({ id: match.params.roomId, logs: [] });
-
+  
   WebSocket.on(`message${state.id}`, (param) => {
     state.logs.push(param);
     setState({
@@ -18,7 +16,9 @@ const ChatRoom = ({ history, match, reduceCount }) => {
   });
 
   const onLeavePageHandler = () => {
-    reduceCount({ type: UPDATE_COUNT, payload: state.id });
+    ActionCreator.decreaseCountToRoom(state.id).then(action => {
+      getRooms(action);
+    });
     history.push('/public');
   }
 
@@ -98,8 +98,8 @@ const ChatInput = ({ roomId }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  reduceCount: action => dispatch(action)
-})
+  getRooms: action => dispatch(action)
+});
 
 export default connect(null, mapDispatchToProps)(ChatRoom);
 

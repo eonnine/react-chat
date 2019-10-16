@@ -15,11 +15,15 @@ Router.get('/list', (req, res) => {
 });
 
 Router.put('/count', (req, res) => {
-  console.log(req.params);
-  chatroom.findByPk().then(room => {
-    
+  const id = req.body.id;
+  const type = req.body.type;
+  chatroom.findByPk(id).then(room => {
+    const count = ( type == '+' ) ? room.count + 1 : room.count - 1;
+    chatroom.update({ count }, { where: { room_id: room.room_id } }).then(() => {
+      chatroom.findAll().then(rooms => res.send(rooms));
+    });
   });
-  res.send('1');
+
 });
 
 module.exports = Router;

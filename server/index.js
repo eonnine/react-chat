@@ -2,6 +2,7 @@ const express = require('express');
 const websocket = require('./server-websocket');
 const app = express();
 const server = require('http').createServer(app);
+app.use(express.json());
 
 const Router = require('./router');
 const Models = require('./models');

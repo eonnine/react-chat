@@ -7,11 +7,16 @@ const ActionCreator = {
       return { type: ActionType.GET_ROOMS, payload: res.data };
     });
   },
-  addCountToRoom : async (roomId) => {
-    return await axios.put('/room/count', { id: roomId }).then(res => {
-      return res.data;
+  increaseCountToRoom : async (roomId) => {
+    return await axios.put('/room/count', { id: roomId, type: '+' }).then(res => {
+      return { type: ActionType.GET_ROOMS, payload: res.data };
     });
-  }
+  },
+  decreaseCountToRoom : async (roomId) => {
+    return await axios.put('/room/count', { id: roomId, type: '-' }).then(res => {
+      return { type: ActionType.GET_ROOMS, payload: res.data };
+    });
+  },
 }
 
 export default ActionCreator; 

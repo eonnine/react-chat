@@ -10,7 +10,7 @@ const ChatList = ({ rooms, getRooms, history }) => {
       getRooms(action);
     });
   }, []);
-  
+
   return (
     <Fragment>
       {rooms.map(room => {

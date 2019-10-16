@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import ActionCreator from '../action';
-import ActionType from '../shared/ActionType';
 
-const UPDATE_COUNT = ActionType.UPDATE_COUNT_ROOM;
-
-const ChatItem = ({ id, history, rooms, updateCount }) => {
+const ChatItem = ({ id, history, rooms, getRooms }) => {
   const { room_id, title, pwd, count, count_limit } = rooms.find(el => el.room_id == id);
   const isPassword = ( pwd ) ? true : false;
   const [ roomPwd, setRoomPwd ] = useState('');
@@ -17,12 +14,14 @@ const ChatItem = ({ id, history, rooms, updateCount }) => {
       return;
     }
     // 인원이 2명인 방은 입장 불가
-    
     if(count >= count_limit){
       return;
     }
-    const updatedCount = ActionCreator.addCountToRoom(room_id);
-    updateCount({ type: UPDATE_COUNT, payload: updatedCount });
+
+    ActionCreator.increaseCountToRoom(room_id).then(action => {
+      getRooms(action);
+    });
+    
     history.push(`/Room/${room_id}`);
   }
 
@@ -56,7 +55,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateCount: action => dispatch(action)
+  getRooms: action => dispatch(action)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatItem);
