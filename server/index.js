@@ -8,7 +8,7 @@ const Router = require('./router');
 const Models = require('./models');
 
 app.use("/public", express.static("dist"));
-app.use("/room", Router);
+app.use("/chat", Router);
 app.get('/', (_, res) => {
   res.redirect(302, "/public");
 });

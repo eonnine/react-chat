@@ -2,8 +2,8 @@ const makeChatRoom = (sequelize, Sequelize) => {
   return sequelize.define('chatroom', {
     room_id: {
       type: Sequelize.INTEGER,
-      allowNull: false,
       primaryKey: true,
+      autoIncrement: true,
     },
     title: {
       type: Sequelize.STRING,

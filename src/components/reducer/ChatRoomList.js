@@ -1,4 +1,4 @@
-import ActionType from '../shared/ActionType';
+import ActionType from '../action/ActionType';
 
 const InitialState = {
   rooms: [],

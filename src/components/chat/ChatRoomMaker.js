@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ActionType from '../shared/ActionType';
+import ActionType from '../action/ActionType';
+import ActionCreator from '../action';
 import { connect } from 'react-redux';
 
 const ADD = ActionType.ADD_ROOM;
@@ -12,7 +13,14 @@ const ChatRoomMaker = ({ close, createRoom }) => {
     if(state.title == ''){
       alert('제목을 입력해야 합니다.');
     } else {
-      createRoom({ type: ADD, payload: state });
+      ActionCreator.createRoom(state).then(res => {
+        const payload = res.payload;
+        if( payload.code == -1){
+          alert('동일한 이름의 방이 이미 존재합니다');
+        } else {
+          console.log(res);
+        }
+      });
       close();
     }
   }
